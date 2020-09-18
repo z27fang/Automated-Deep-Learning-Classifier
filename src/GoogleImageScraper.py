@@ -5,7 +5,9 @@ from selenium.webdriver.common.keys import Keys
 import urllib
 import os
 
-def GoogleImageScrawler(keyword, n = 400):
+import sys, getopt
+
+def GoogleImageScraper(keyword, path, n = 400):
     #you need to call the Selenium Chrome driver, and the path to chromedriver.exe
     driver = webdriver.Chrome(executable_path='../chromedriver.exe')
     driver.get("https://www.google.com/search?q={}&tbm=isch".format(keyword))
@@ -38,17 +40,28 @@ def GoogleImageScrawler(keyword, n = 400):
     driver.quit()
     #excute the Selenium Chrome Driver, then print how many image did you get.
     print(len(links))
-
+    full_path = './{0}/{1}'.format(path, keyword)
+    os.mkdir(path)
+    os.mkdir(full_path)
     for i,link in enumerate(links):
         print('Downloading {}/{}'.format(i, len(links)))
-        name = '../image/'+ string_name + '/' +'google_img_{}.png'.format(i)
+        name = full_path + '/' +'google_img_{}.png'.format(i)
         urllib.request.urlretrieve(link, name)
         sleep(2)
 
 #use GoogleImageScrawler function with two parameters
 #first parameter with a string as what's the name of the Image
 #second parameter with the num of image you want
-GoogleImageScrawler('Cat', 10)
-string_name = 'Cat'
-path = "please input the image folder path here"
-os.mkdir(path, string_name)
+# GoogleImageScrawler('Cat', 10)
+# string_name = 'Cat'
+# path = "please input the image folder path here"
+# os.mkdir(path, string_name)
+
+# def main(argv):
+#     search_query = ''
+#     number = 10
+#     try:
+#         opts, args = getopt.getopt(argv, "q:n:", ["query=", "number="])
+#     except getopt.GetoptError:
+#         print('')
+
